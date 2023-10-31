@@ -1,10 +1,11 @@
 name: Gerar e publicar Docker image
 
-# Qual evento dispara o fluxo de trabalho ?
+# Qual(is) evento(s) dispara(m) o fluxo de trabalho ?
 on:
     push:
         branches:
             - base-ubuntu-prod
+    workflow_dispatch:
 
 jobs:
     # Nome do job
