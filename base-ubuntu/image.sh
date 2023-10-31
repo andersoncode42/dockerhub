@@ -9,7 +9,7 @@ apt-get -y upgrade
 echo "##== INSTALANDO PACOTES ==##"
 apt-get install -y --no-install-recommends \
         bash-completion \
-        vim nano  \
+        curl wget \
         locales   \
         tzdata
 
