@@ -14,14 +14,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout do código fonte
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
-            - name: Loguin no DockerHub
+            - name: Login no DockerHub
               uses: docker/login-action@v3.0.0
               with:
                 username: ${{secrets.DOCKERHUB_USERNAME}}
                 password: ${{secrets.DOCKERHUB_TOKEN}}
-            - name: Contrução e publicação da imagem Docker
+            - name: Construção e publicação da imagem Docker
               uses: docker/build-push-action@v5.0.0
               with:
                 context: ./base-ubuntu
