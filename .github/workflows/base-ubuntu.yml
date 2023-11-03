@@ -26,4 +26,4 @@ jobs:
               with:
                 context: ./base-ubuntu
                 push: true
-                tags: ${{secrets.DOCKERHUB_USERNAME}}/base-ubuntu:stable
+                tags: ${{secrets.DOCKERHUB_USERNAME}}/base-ubuntu:latest
