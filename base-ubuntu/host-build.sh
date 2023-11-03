@@ -4,4 +4,4 @@ imagem=$(basename "$PWD")
 
 # Elimina os containers para poder reconstruir a imagem
 podman container rm --force imagem
-podman build --no-cache --rm -t "$imagem":stable .
+podman build --no-cache --rm -t "$imagem":latest .
