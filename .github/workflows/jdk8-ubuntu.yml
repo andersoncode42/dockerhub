@@ -1,0 +1,31 @@
+name: Deploy imagem docker no Dockerhub
+
+# Qual(is) evento(s) dispara(m) o fluxo de trabalho ?
+env:
+    PROJETO: jdk8-ubuntu # O nome da pasta é o mesmo do projeto
+on:
+    push:
+        tags:
+            - deploy && $PROJETO
+    workflow_dispatch:
+
+jobs:
+    # Nome do job
+    build-and-push:
+        # Nome do Runner / Imagem
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout do código fonte
+              uses: actions/checkout@v4
+
+            - name: Login no DockerHub
+              uses: docker/login-action@v3.0.0
+              with:
+                username: ${{secrets.DOCKERHUB_USERNAME}}
+                password: ${{secrets.DOCKERHUB_TOKEN}}
+            - name: Construção e publicação da imagem Docker
+              uses: docker/build-push-action@v5.0.0
+              with:
+                context: ./$PROJETO # A pasta
+                push: true
+                tags: ${{secrets.DOCKERHUB_USERNAME}}/$PROJETO:latest # O nome da imagem é a mesma da pasta
