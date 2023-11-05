@@ -28,6 +28,6 @@ jobs:
             - name: Construção e publicação da imagem Docker
               uses: docker/build-push-action@v5.0.0
               with:
-                context: ./${{ env.PROJETO }} # A pasta
+                context: ./${{env.PROJETO}} # A pasta
                 push: true
-                tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ env.PROJETO }}:latest # O nome da imagem é a mesma da pasta
+                tags: ${{secrets.DOCKERHUB_USERNAME}}/${{env.PROJETO}}:latest # O nome da imagem é a mesma da pasta
