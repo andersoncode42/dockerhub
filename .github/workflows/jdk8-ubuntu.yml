@@ -1,10 +1,10 @@
+
+name: JAVA - Dockerhub Deploy
+
 env:
     PROJETO: jdk8-ubuntu # O nome da pasta é o mesmo do projeto
 
-name: ${{env.PROJETO}} - Dockerhub Deploy
-
 # Qual(is) evento(s) dispara(m) o fluxo de trabalho ?
-
 on:
     push:
         branches:
