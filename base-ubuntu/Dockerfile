@@ -10,32 +10,8 @@ ARG MY_LOCALE
 ARG MY_TIMEZONE
 
 # Copiando o arquivo de instalação da imagem
-# COPY ./image.sh /tmp/image.sh
-
-# RUN /tmp/image.sh && rm -v /tmp/image.sh
-
-
-RUN set -eux && \
-export DEBIAN_FRONTEND="noninteractive"    && \
-export PACOTES="locales tzdata"            && \
-echo "##== ATUALIZANDO SISTEMA ==##"       && \
-apt-get -y update                          && \
-apt-get -y upgrade                         && \
-echo "##== INSTALANDO PACOTES ==##"        && \
-apt-get install -y --no-install-recommends $PACOTES  && \
-echo "##== CONFIGURANDO LOCALE ==##"       && \
-locale-gen "${MY_LOCALE}"                  && \
-update-locale LANG="${MY_LOCALE}"          && \
-echo "##== CONFIGURANDO TIMEZONE ==##"     && \
-dpkg-reconfigure -f noninteractive tzdata  && \
-echo "${MY_TIMEZONE}" > /etc/timezone      && \
-ln -snf /usr/share/zoneinfo/${MY_TIMEZONE} /etc/localtime && \
-echo "##== LIMPANDO SISTEMA ==##"          && \
-apt-get -y purge $PACOTES                  && \
-apt-get -y clean                           && \
-apt-get -y autoremove                      && \
-rm -Rf /var/lib/apt/lists/*                && \
-rm -Rf /tmp/*
+COPY ./image.sh /tmp/image.sh
+RUN bash -x /tmp/image.sh && rm -v /tmp/image.sh
 
 # Fase 2: Criação da imagem final a partir do rootfs da fase anterior
 FROM scratch AS imagem_final

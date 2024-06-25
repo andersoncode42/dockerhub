@@ -1,26 +1,38 @@
 #!/bin/bash
-set -e
+# Script de instalação da imagem
+
+set -eux
 export DEBIAN_FRONTEND="noninteractive"
 
-PACOTES="locales tzdata"
+# Valida variáveis que deveriam está setadas pelo Dockerfile
+if [ -z "${MY_LOCALE}" ]; then
+    echo "variavel MY_LOCALE é obrigatoria"
+    exit 1
+fi
+
+if [ -z "${MY_TZ}" ]; then
+    echo "variavel MY_TZ é obrigatoria"
+    exit 1
+fi
 
 echo "##== ATUALIZANDO SISTEMA ==##"
 apt-get -y update
 apt-get -y upgrade
 
 echo "##== INSTALANDO PACOTES ==##"
-apt-get install -y --no-install-recommends "$PACOTES"
+apt-get install -y --no-install-recommends locales tzdata
 
 echo "##== CONFIGURANDO LOCALE ==##"
-locale-gen pt_BR.utf8
-update-locale LANG=pt_BR.utf8
+locale-gen "$MY_LOCALE"
+update-locale LANG="$MY_LOCALE"
 
 echo "##== CONFIGURANDO TIMEZONE ==##"
 dpkg-reconfigure -f noninteractive tzdata
-echo "America/Bahia" > /etc/timezone
+echo "$MY_TIMEZONE" > /etc/timezone
+ln -snf "/usr/share/zoneinfo/$MY_TIMEZONE" /etc/localtime
 
 echo "##== LIMPANDO SISTEMA ==##"
-apt-get -y remove "$PACOTES"
+apt-get -y purge locales tzdata
 apt-get -y clean
 apt-get -y autoremove
 rm -Rf /var/lib/apt/lists/*
