@@ -10,8 +10,8 @@ if [ -z "${MY_LOCALE}" ]; then
     exit 1
 fi
 
-if [ -z "${MY_TZ}" ]; then
-    echo "variavel MY_TZ é obrigatoria"
+if [ -z "${MY_TIMEZONE}" ]; then
+    echo "variavel MY_TIMEZONE é obrigatoria"
     exit 1
 fi
 
@@ -32,7 +32,6 @@ echo "$MY_TIMEZONE" > /etc/timezone
 ln -snf "/usr/share/zoneinfo/$MY_TIMEZONE" /etc/localtime
 
 echo "##== LIMPANDO SISTEMA ==##"
-apt-get -y purge locales tzdata
 apt-get -y clean
 apt-get -y autoremove
 rm -Rf /var/lib/apt/lists/*

@@ -11,7 +11,7 @@ ARG MY_TIMEZONE
 
 # Copiando o arquivo de instalação da imagem
 COPY ./image.sh /tmp/image.sh
-RUN bash -x /tmp/image.sh && rm -v /tmp/image.sh
+RUN bash -x /tmp/image.sh
 
 # Fase 2: Criação da imagem final a partir do rootfs da fase anterior
 FROM scratch AS imagem_final
@@ -20,7 +20,8 @@ ARG MY_TIMEZONE
 
 ENV LANG="${MY_LOCALE}"
 # Variável necessária para o comando date reletir o valor certo
-ENV TZ="${MY_TIMEZONE}}"
+# Sem isso não funciona
+ENV TZ="${MY_TIMEZONE}"
 
 # Copie o rootfs da imagem anterior para a nova imagem
 COPY --from=imagem_temporaria / /
