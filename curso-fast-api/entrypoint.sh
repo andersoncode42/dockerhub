@@ -57,9 +57,9 @@ pyenv update
 echo "----------------------------------------------"
 echo "Buildando a versão do python que eu preciso   "
 echo "----------------------------------------------"
-# pyenv install 3.12.4
-# pyenv global 3.12.4
-# pip install --upgrade pip
+pyenv install 3.12.4
+pyenv global 3.12.4
+pip install --upgrade pip
 
 echo "----------------------------------- "
 echo "Limpando a instalação               "
