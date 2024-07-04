@@ -1,6 +1,7 @@
 #!/bin/bash
-# No "set"não use o parâmetro "u" porque vai dá erro de unbold variable quando 
-# você usar o source ~/.bashrc porque a variável PS1 não está setada
+# No comando "set" abaixo NÃO use o parâmetro "-u" porque vai dá erro de unbold variable quando
+# você usar o "source ~/.bashrc" porque ele referencia variáveis unbound, e o
+# parâmetro "-u" considera isso um erro
 set -ex;
 export DEBIAN_FRONTEND=noninteractive
 
@@ -34,18 +35,24 @@ echo "Instalando pyenv      "
 echo "----------------------"
 curl https://pyenv.run | bash
 
-# Não use .bashrc
-# Ele faz uma verificação para ver se é um bash interativo
-# Como esse não é o caso, o .bashrc finaliza ele mesmo antes de processar
-# o resto do código dentro dele.
-# A título de curiosidade ele faz essa validação testando a existencia da variável PS!
+# Estamos adicionando contéudo em ambos .bashrc e .profile
+#
+# Relembrando
+# .profile -----> Para NÃO login tty (Dockerfile RUN)
+# .bashrc ------> Para login tty (Dockerfile CMD)
+#
+# Curiosidades
+# - O .bashrc verifica se é um bash interativo usando a variável "PS1"
+# Se a variável estiver indefinida o .bashrc "return" antes de processar o resto do código dentro dele.
+# - Como vc vai usar o comando  "source" DEVE desabilitar a opção "-u" do comando "set".
+#   isso vale para ambos .bashrc e .profile, pois ambos fazem validações de variáveis que se encontram indefinidas/unbounds
 echo "--------------------------------------------"
 echo "Configurando .profile  e carregando o mesmo "
 echo "--------------------------------------------"
 # Configurando
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-echo 'eval "$(pyenv init -)"' >> ~/.profile
+echo 'export PYENV_ROOT="$HOME/.pyenv"' | tee -a ~/.profile ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' | tee -a ~/.profile ~/.bashrc
+echo 'eval "$(pyenv init -)"' | tee -a ~/.profile ~/.bashrc
 # Carregando
 source ~/.profile
 
@@ -69,7 +76,7 @@ rm -rfv /var/lib/apt/lists/*
 
 echo "SUCESSO !!!"
 
-echo "-------------------------------------------------"
-echo "Reabra o bash já com o comando pyenv disponível  "
-echo "-------------------------------------------------"
-exec "/bin/bash"
+# echo "-------------------------------------------------"
+# echo "Reabra o bash já com o comando pyenv disponível  "
+# echo "-------------------------------------------------"
+# exec "/bin/bash"
