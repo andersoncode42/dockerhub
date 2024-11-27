@@ -32,7 +32,8 @@ echo "$MY_TIMEZONE" > /etc/timezone
 ln -snf "/usr/share/zoneinfo/$MY_TIMEZONE" /etc/localtime
 
 echo "##== LIMPANDO SISTEMA ==##"
-apt-get -y clean
 apt-get -y autoremove
+apt-get -y autoclean
+apt-get -y clean
 rm -Rf /var/lib/apt/lists/*
 rm -Rf /tmp/*
