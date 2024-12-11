@@ -1,0 +1,10 @@
+
+- ubuntu
+- repositorio antigo
+- encode e fuso horario
+- java
+- lib
+- usuario
+- kettle  - pasta separada com permissões de 
+- Como faço com as conexões?
+
