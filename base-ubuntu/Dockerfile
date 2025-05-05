@@ -3,7 +3,10 @@
 #==================================
 ARG MY_LOCALE='pt_BR.UTF-8'
 ARG MY_TIMEZONE='America/Maceio'
-ARG MY_VERSION='24.04' # Usado apenas pelo 1st Estágio, deve ser declarado antes
+ARG MY_VERSION='oracular-20250225' # Usado apenas pelo 1st Estágio, deve ser declarado antes
+# Na data de hoje, 05/05/2025 o latest é noble-20250415.1, porém, ele dá o erro abaixo ao fazer o pull
+# no matching manifest for linux/amd64 in the manifest list entries
+# Por isso eu mudei temporariamente para oracular
 
 #----------------------------------------------------------------
 # Fase 1: Imagem temporária para rodar o script de instalação
@@ -31,4 +34,4 @@ ENV TZ="${MY_TIMEZONE}"
 # Copie o rootfs da imagem anterior para a nova imagem
 COPY --from=imagem_temporaria / /
 
-CMD /bin/bash
+CMD ["/bin/bash"]
